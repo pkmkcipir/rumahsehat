@@ -253,7 +253,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f9f1;color:var(--g
 
 <div class="header">
   <div class="header-inner">
-    <div class="header-badge">Program Puskesmas Digital</div>
+    <div class="header-badge">Program Kesling Digital Puskesmas Kecipir</div>
     <h1>Audit Mandiri<br><span>Rumah Sehat</span></h1>
     <p>Periksa kondisi rumahmu sendiri, dapatkan skor kesehatan lingkungan, dan rekomendasi AI—data otomatis dikirim ke Spreadsheet Puskesmas.</p>
     <div class="header-stats">
@@ -284,18 +284,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f9f1;color:var(--g
     </div>
   </div>
 
-  <!-- ===== SETUP GUIDE PETUGAS ===== -->
-  <div class="setup-guide" id="setup-guide-wrap">
-    <h4>⚙️ Pengaturan Petugas Puskesmas — Google Sheets Webhook</h4>
-    <ol>
-      <li>Buat <strong>Google Spreadsheet</strong> baru → <a href="https://sheets.new" target="_blank" style="color:var(--sky-400)">sheets.new</a></li>
-      <li>Buka <strong>Extensions → Apps Script</strong> → paste kode dari panduan di bawah halaman ini → <strong>Deploy → New Deployment → Web App</strong> (Anyone access)</li>
-      <li>Salin URL deployment dan tempelkan di sini:</li>
-    </ol>
-    <input class="url-input" id="webhook-url-input" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec" oninput="saveWebhookUrl()">
-    <div class="url-status" id="url-status"></div>
-    <p style="font-size:11px;color:var(--gray-400);margin-top:6px;">URL tersimpan di browser Anda (localStorage). Panduan lengkap Apps Script ada di bawah halaman ini.</p>
-  </div>
 
   <!-- ===== IDENTITAS PEMILIK ===== -->
   <div class="identity-card">
@@ -683,37 +671,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f9f1;color:var(--g
       </div>
     </div>
 
-  </div>
-
-  <!-- APPS SCRIPT GUIDE -->
-  <div style="background:#fff;border:1px solid var(--gray-200);border-radius:16px;padding:24px;margin-top:32px;">
-    <h4 style="font-size:15px;font-weight:700;color:var(--gray-800);margin-bottom:12px;">📋 Panduan Setup Google Apps Script (untuk Petugas Puskesmas)</h4>
-    <p style="font-size:13px;color:var(--gray-600);margin-bottom:12px;">Salin kode berikut ke <strong>Extensions → Apps Script</strong> di Google Spreadsheet Anda, lalu deploy sebagai Web App:</p>
-    <pre style="background:var(--gray-900);color:#a3e06e;border-radius:10px;padding:16px;font-size:11.5px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;word-break:break-all;">function doPost(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  const d = JSON.parse(e.postData.contents);
-  sheet.appendRow([
-    d.timestamp, d.nama, d.nik, d.telp,
-    d.alamat, d.rtRw, d.kelurahan, d.kecamatan,
-    d.mapsLink, d.lat, d.lng,
-    d.lantai, d.dinding, d.lembab,
-    d.jamban, d.jarak, d.sampah,
-    d.ventilasi, d.dapurVent, d.cahaya,
-    d.air, d.kuras, d.jentik,
-    d.makanan, d.ctpsTempat, d.ctpsCara,
-    d.skor, d.kategori, d.risiko, d.rekomendasi
-  ]);
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok',nama:d.nama}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'online'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</pre>
-    <p style="font-size:12px;color:var(--gray-400);margin-top:10px;">Header kolom yang disarankan: <strong>Timestamp | Nama | NIK | No HP | Alamat | RT/RW | Kelurahan | Kecamatan | Link Maps | Lat | Lng | Lantai | Dinding | Kelembaban | Jamban | Jarak Sumur | Sampah | Ventilasi | Vent Dapur | Cahaya | Air | Kuras | Jentik | Skor | Kategori | Risiko | Rekomendasi</strong></p>
   </div>
 
 </div><!-- end .main -->
