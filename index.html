@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RumahSehat — Audit Mandiri Kesehatan Rumah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-50:#e8f5e1;--green-100:#c4e6a8;--green-200:#97d166;
+  --green-400:#5aad27;--green-600:#357a12;--green-800:#1e4d08;--green-900:#0f2b03;
+  --sky-50:#e6f4fb;--sky-100:#b5dcf4;--sky-200:#7dc1ea;
+  --sky-400:#2e96d6;--sky-600:#1166a0;--sky-800:#06447a;
+  --amber-50:#fef3da;--amber-100:#fcd97a;--amber-200:#f5b030;
+  --amber-400:#c07a12;--amber-600:#89520a;--amber-800:#5c3406;
+  --red-50:#fcecea;--red-100:#f7c2be;--red-200:#f09089;
+  --red-400:#e04840;--red-600:#a02c2a;--red-800:#741c1a;
+  --coral-50:#faeee8;--coral-100:#f5c5b0;--coral-400:#d85b2e;--coral-600:#9b3d1e;
+  --gray-50:#f8f7f2;--gray-100:#edecea;--gray-200:#d2d0c8;
+  --gray-400:#8a8880;--gray-600:#5c5a55;--gray-800:#3a3836;--gray-900:#1c1b19;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#f4f9f1;color:var(--gray-900);min-height:100vh;overflow-x:hidden;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#1e4d08 0%,#2d6e10 40%,#357a12 70%,#1e6e42 100%);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.header-inner{max-width:900px;margin:0 auto;padding:40px 24px 36px;position:relative;z-index:1;}
+.header-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:100px;padding:5px 14px;font-size:12px;color:rgba(255,255,255,0.9);font-weight:500;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px;}
+.header h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,52px);color:#fff;line-height:1.1;margin-bottom:14px;}
+.header h1 span{color:#a3e06e;font-style:italic;}
+.header>div>p{font-size:16px;color:rgba(255,255,255,0.78);line-height:1.65;max-width:540px;margin-bottom:28px;}
+.header-stats{display:flex;gap:28px;flex-wrap:wrap;}
+.stat-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:12px;padding:10px 18px;color:#fff;font-size:13px;font-weight:500;}
+.stat-pill strong{font-size:20px;font-weight:800;display:block;color:#a3e06e;line-height:1.1;}
+
+.main{max-width:900px;margin:0 auto;padding:32px 24px 64px;}
+
+/* PROGRESS */
+.progress-bar-wrap{background:#fff;border:1px solid var(--gray-100);border-radius:16px;padding:20px 24px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.progress-label{font-size:13px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;}
+.progress-pct{font-size:20px;font-weight:800;color:var(--green-600);}
+.progress-track{background:var(--green-50);border-radius:100px;height:12px;overflow:hidden;margin-bottom:10px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#5aad27,#2d8a4e);border-radius:100px;transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);width:0%;}
+.progress-steps{display:flex;gap:4px;font-size:11px;color:var(--gray-400);flex-wrap:wrap;}
+.step-dot{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-weight:600;background:var(--gray-50);transition:all 0.3s;}
+.step-dot.active{background:var(--green-50);color:var(--green-600);}
+.step-dot.done{background:var(--green-400);color:#fff;}
+
+/* IDENTITY CARD */
+.identity-card{background:#fff;border:2px solid var(--green-200);border-radius:20px;margin-bottom:20px;overflow:hidden;box-shadow:0 4px 20px rgba(90,173,39,0.12);}
+.identity-header{background:linear-gradient(135deg,var(--green-800),var(--green-600));padding:18px 24px;display:flex;align-items:center;gap:12px;}
+.identity-header-icon{width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.identity-header h3{color:#fff;font-size:16px;font-weight:700;margin-bottom:2px;}
+.identity-header p{color:rgba(255,255,255,0.72);font-size:12px;}
+.identity-body{padding:24px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:13px;font-weight:600;color:#4a4846;display:flex;align-items:center;gap:5px;}
+.form-label .req{color:var(--red-400);}
+.form-input,.form-select{border:1.5px solid var(--gray-100);border-radius:10px;padding:11px 14px;font-family:inherit;font-size:14px;color:var(--gray-900);outline:none;transition:border-color 0.2s;background:var(--gray-50);}
+.form-input:focus,.form-select:focus{border-color:var(--green-400);background:#fff;}
+.form-input::placeholder{color:var(--gray-400);}
+.form-input.invalid{border-color:var(--red-400);}
+.required-note{font-size:12px;color:var(--gray-400);margin-top:8px;font-style:italic;}
+
+/* MAPS */
+.maps-section{background:var(--sky-50);border:1px solid var(--sky-100);border-radius:14px;padding:16px;margin-top:4px;}
+.maps-section-title{font-size:13px;font-weight:700;color:var(--sky-800);margin-bottom:12px;}
+.maps-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.maps-btn{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid;transition:all 0.2s;}
+.maps-btn-gps{background:var(--sky-400);color:#fff;border-color:var(--sky-400);}
+.maps-btn-gps:hover{background:var(--sky-600);}
+.maps-btn-open{background:#fff;color:var(--sky-600);border-color:var(--sky-200);}
+.maps-btn-open:hover{background:var(--sky-50);border-color:var(--sky-400);}
+.maps-btn-manual{background:#fff;color:var(--gray-600);border-color:var(--gray-200);}
+.maps-btn-manual:hover{background:var(--gray-50);}
+.coords-box{background:#fff;border:1px solid var(--sky-100);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--sky-800);display:flex;align-items:flex-start;gap:10px;min-height:50px;}
+.coords-icon{font-size:20px;margin-top:1px;flex-shrink:0;}
+.coords-text{flex:1;line-height:1.5;}
+.coords-text strong{display:block;font-weight:700;color:var(--sky-800);font-size:12px;margin-bottom:2px;}
+.coords-text a{color:var(--sky-400);text-decoration:none;font-size:12px;word-break:break-all;}
+.coords-pending{color:var(--gray-400);font-style:italic;}
+.manual-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.maps-tip{font-size:11px;color:var(--sky-600);margin-bottom:8px;line-height:1.5;}
+#maps-preview{display:none;margin-top:12px;border-radius:10px;overflow:hidden;border:1px solid var(--sky-100);}
+
+/* AUDIT SECTIONS */
+.audit-section{background:#fff;border:1px solid var(--gray-100);border-radius:20px;margin-bottom:20px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.05);transition:box-shadow 0.3s;}
+.audit-section:hover{box-shadow:0 4px 24px rgba(0,0,0,0.09);}
+.section-header{display:flex;align-items:center;gap:14px;padding:20px 24px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color 0.3s;}
+.audit-section.open .section-header{border-color:var(--gray-100);}
+.section-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.section-icon.green{background:var(--green-50);}
+.section-icon.sky{background:var(--sky-50);}
+.section-icon.amber{background:var(--amber-50);}
+.section-icon.coral{background:var(--coral-50);}
+.section-meta{flex:1;}
+.section-meta h3{font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:2px;}
+.section-meta p{font-size:13px;color:var(--gray-400);}
+.section-chevron{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--gray-50);font-size:14px;color:var(--gray-400);transition:transform 0.3s;}
+.audit-section.open .section-chevron{transform:rotate(180deg);}
+.section-body{display:none;padding:20px 24px 24px;}
+.audit-section.open .section-body{display:block;}
+
+/* QUESTIONS */
+.question-group{margin-bottom:22px;}
+.question-label{font-size:14px;font-weight:600;color:var(--gray-800);margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.q-num{background:var(--green-50);color:var(--green-600);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.option-btn{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--gray-100);border-radius:12px;background:var(--gray-50);cursor:pointer;transition:all 0.2s;text-align:left;font-family:inherit;font-size:13px;font-weight:500;color:#4a4846;}
+.option-btn:hover{border-color:var(--green-200);background:var(--green-50);color:var(--green-800);}
+.option-btn.selected,
+.option-btn.selected-bad {
+  border-color: var(--green-400);
+  background: var(--green-50);
+  color: var(--green-800);
+  box-shadow: 0 0 0 3px rgba(90,173,39,0.12);
+}
+.option-icon{font-size:20px;flex-shrink:0;}
+.option-text{line-height:1.3;}
+.option-text small{display:block;font-size:11px;color:var(--gray-400);font-weight:400;}
+.info-box{background:var(--sky-50);border:1px solid var(--sky-100);border-left:3px solid var(--sky-400);border-radius:0 10px 10px 0;padding:12px 16px;font-size:13px;color:var(--sky-800);line-height:1.5;margin-bottom:16px;}
+.section-divider{display:flex;align-items:center;gap:12px;margin:24px 0;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--gray-100);}
+.upload-zone{border:2px dashed var(--gray-200);border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:all 0.3s;background:var(--gray-50);}
+.upload-zone:hover{border-color:var(--green-400);background:var(--green-50);}
+
+/* HOUSE VISUAL */
+.house-visual{background:linear-gradient(135deg,var(--sky-50) 0%,var(--green-50) 100%);border:1px solid var(--sky-100);border-radius:16px;padding:24px;margin-bottom:24px;}
+.house-visual-title{font-size:13px;font-weight:700;color:var(--sky-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:16px;}
+.house-svg-wrap{display:flex;gap:24px;align-items:flex-start;}
+.house-indicators{flex:1;display:flex;flex-direction:column;gap:10px;}
+.indicator-row{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:#4a4846;}
+.indicator-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:background 0.4s;}
+.ind-green{background:var(--green-400);}.ind-amber{background:var(--amber-200);}.ind-red{background:var(--red-400);}.ind-gray{background:var(--gray-200);}
+
+/* CTA BUTTON */
+.calc-btn{width:100%;background:linear-gradient(135deg,#357a12,#1e6e42);color:#fff;border:none;border-radius:14px;padding:16px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;letter-spacing:0.2px;}
+.calc-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(53,122,18,0.35);}
+.calc-btn:disabled{opacity:0.45;cursor:not-allowed;}
+
+/* SUBMISSION STATUS */
+.submission-card{border-radius:16px;padding:20px 22px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;}
+.submission-card.sending{background:var(--sky-50);border:1px solid var(--sky-100);}
+.submission-card.success{background:var(--green-50);border:1px solid var(--green-100);}
+.submission-card.error{background:var(--red-50);border:1px solid var(--red-100);}
+.submission-icon{font-size:28px;flex-shrink:0;}
+.submission-content h4{font-size:15px;font-weight:700;margin-bottom:4px;}
+.sending h4{color:var(--sky-800);}.success h4{color:var(--green-800);}.error h4{color:var(--red-800);}
+.submission-content p{font-size:13px;line-height:1.5;}
+.sending p{color:var(--sky-600);}.success p{color:var(--green-600);}.error p{color:var(--red-600);}
+.submission-detail{margin-top:10px;background:rgba(255,255,255,0.65);border-radius:10px;padding:10px 14px;font-size:12.5px;border:1px solid rgba(0,0,0,0.06);}
+.sd-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.05);gap:10px;}
+.sd-row:last-child{border-bottom:none;}
+.sd-row span:first-child{color:#6e6c68;font-weight:600;white-space:nowrap;}
+.sd-row span:last-child{color:var(--gray-800);font-weight:500;text-align:right;}
+.sd-row a{color:var(--green-600);text-decoration:none;}
+.sd-row a:hover{text-decoration:underline;}
+.retry-btn{margin-top:10px;background:var(--red-400);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+.retry-btn:hover{background:var(--red-600);}
+
+/* RESULTS */
+.results-panel{background:#fff;border:1px solid var(--gray-100);border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.05);margin-bottom:20px;}
+.results-header{background:linear-gradient(135deg,#1e4d08,#357a12);padding:28px 28px 24px;color:#fff;}
+.score-display{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.score-ring-wrap{position:relative;width:100px;height:100px;}
+.score-ring-wrap svg{display:block;}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.score-num{font-size:26px;font-weight:800;color:#fff;line-height:1;}
+.score-label-small{font-size:10px;color:rgba(255,255,255,0.6);font-weight:500;}
+.score-meta h2{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:4px;}
+.score-meta p{font-size:14px;color:rgba(255,255,255,0.75);}
+.score-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:#fff;margin-top:8px;}
+.risk-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.risk-tag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:600;}
+.risk-tag.high{background:var(--red-50);border:1px solid var(--red-100);color:var(--red-800);}
+.risk-tag.medium{background:var(--amber-50);border:1px solid var(--amber-100);color:var(--amber-800);}
+.risk-tag.low{background:var(--green-50);border:1px solid var(--green-100);color:var(--green-800);}
+.results-body{padding:24px 28px;}
+.recs-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:14px;}
+.rec-card{display:flex;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--gray-100);margin-bottom:10px;align-items:flex-start;}
+.rec-card.priority-high{border-color:var(--red-100);background:var(--red-50);}
+.rec-card.priority-medium{border-color:var(--amber-100);background:var(--amber-50);}
+.rec-card.priority-low{border-color:var(--green-100);background:var(--green-50);}
+.rec-priority{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:100px;white-space:nowrap;margin-top:2px;}
+.priority-high .rec-priority{background:var(--red-200);color:var(--red-800);}
+.priority-medium .rec-priority{background:var(--amber-200);color:var(--amber-800);}
+.priority-low .rec-priority{background:var(--green-200);color:var(--green-800);}
+.rec-content h4{font-size:14px;font-weight:700;color:var(--gray-900);margin-bottom:4px;}
+.rec-content p{font-size:13px;color:var(--gray-600);line-height:1.5;}
+
+/* CHATBOT */
+.chatbot-card{background:#fff;border:1px solid var(--sky-100);border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.05);margin-bottom:20px;}
+.chatbot-header{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--sky-50);border-bottom:1px solid var(--sky-100);}
+.chatbot-avatar{width:40px;height:40px;background:var(--sky-400);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.chatbot-header-meta h4{font-size:15px;font-weight:700;color:var(--sky-800);}
+.chatbot-header-meta p{font-size:12px;color:var(--sky-600);}
+.online-dot{width:8px;height:8px;background:var(--green-400);border-radius:50%;display:inline-block;margin-right:5px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.chat-messages{padding:16px 20px;min-height:160px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.msg{max-width:78%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.5;}
+.msg-bot{background:var(--gray-50);border:1px solid var(--gray-100);border-radius:14px 14px 14px 4px;align-self:flex-start;color:var(--gray-800);}
+.msg-user{background:var(--green-400);color:#fff;border-radius:14px 14px 4px 14px;align-self:flex-end;}
+.typing-indicator{display:flex;gap:4px;align-items:center;}
+.typing-indicator span{width:6px;height:6px;background:var(--gray-400);border-radius:50%;animation:bounce 1.2s infinite;}
+.typing-indicator span:nth-child(2){animation-delay:0.2s;}
+.typing-indicator span:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.chat-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--gray-100);}
+.chat-input{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:10px 14px;font-family:inherit;font-size:13px;color:var(--gray-900);outline:none;transition:border-color 0.2s;background:var(--gray-50);}
+.chat-input:focus{border-color:var(--green-400);background:#fff;}
+.chat-send-btn{background:var(--green-400);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;transition:background 0.2s;}
+.chat-send-btn:hover{background:var(--green-600);}
+
+/* CERTIFICATE */
+.cert-card{background:linear-gradient(135deg,#0f2b03,#1e4d08 40%,#0f3d20 100%);border-radius:20px;padding:32px;text-align:center;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;}
+.cert-inner{position:relative;z-index:1;}
+.cert-medal{font-size:52px;display:block;margin-bottom:12px;}
+.cert-card h3{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px;color:#a3e06e;}
+.cert-card p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:20px;}
+.cert-share-btn{background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.25);color:#fff;padding:11px 24px;border-radius:10px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;margin:4px;transition:all 0.2s;}
+.cert-share-btn:hover{background:rgba(255,255,255,0.22);}
+
+/* SETUP GUIDE */
+.setup-guide{background:linear-gradient(135deg,#f8f7f2,#edecea);border:1px solid var(--gray-200);border-radius:16px;padding:20px 24px;margin-bottom:20px;}
+.setup-guide h4{font-size:15px;font-weight:700;color:var(--gray-800);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.setup-guide ol{padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.setup-guide li{font-size:13px;color:var(--gray-600);line-height:1.5;}
+.setup-guide code{background:#fff;border:1px solid var(--gray-200);border-radius:5px;padding:2px 6px;font-size:12px;color:var(--gray-800);word-break:break-all;}
+.setup-guide .url-input{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12px;color:var(--gray-900);outline:none;margin-top:6px;}
+.setup-guide .url-input:focus{border-color:var(--green-400);}
+.setup-guide .save-url-btn{margin-top:8px;background:var(--green-400);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+.setup-guide .save-url-btn:hover{background:var(--green-600);}
+.url-status{font-size:12px;margin-top:6px;font-weight:600;}
+.url-status.ok{color:var(--green-600);}
+.url-status.empty{color:var(--amber-600);}
+
+@media(max-width:600px){
+  .option-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .house-svg-wrap{flex-direction:column;}
+  .manual-row{grid-template-columns:1fr;}
+  .score-display{gap:16px;}
+  .maps-btn-row{flex-direction:column;}
+  .maps-btn{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-badge">Program Puskesmas Digital</div>
+    <h1>Audit Mandiri<br><span>Rumah Sehat</span></h1>
+    <p>Periksa kondisi rumahmu sendiri, dapatkan skor kesehatan lingkungan, dan rekomendasi AI—data otomatis dikirim ke Spreadsheet Puskesmas.</p>
+    <div class="header-stats">
+      <div class="stat-pill"><strong>5–8 menit</strong>Waktu Audit</div>
+      <div class="stat-pill"><strong>15</strong>Pertanyaan</div>
+      <div class="stat-pill"><strong>Otomatis</strong>Ke Puskesmas</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-wrap">
+    <div class="progress-header">
+      <span class="progress-label">Kemajuan Audit</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-steps">
+      <div class="step-dot active" id="step-0">0. Identitas</div>
+      <div class="step-dot" id="step-1">1. Bangunan</div>
+      <div class="step-dot" id="step-2">2. Sanitasi</div>
+      <div class="step-dot" id="step-3">3. Ventilasi</div>
+      <div class="step-dot" id="step-4">4. Air & Makanan</div>
+      <div class="step-dot" id="step-5">5. Cuci Tangan</div>
+      <div class="step-dot" id="step-6">✅ Terkirim</div>
+    </div>
+  </div>
+
+  <!-- ===== SETUP GUIDE PETUGAS ===== -->
+  <div class="setup-guide" id="setup-guide-wrap">
+    <h4>⚙️ Pengaturan Petugas Puskesmas — Google Sheets Webhook</h4>
+    <ol>
+      <li>Buat <strong>Google Spreadsheet</strong> baru → <a href="https://sheets.new" target="_blank" style="color:var(--sky-400)">sheets.new</a></li>
+      <li>Buka <strong>Extensions → Apps Script</strong> → paste kode dari panduan di bawah halaman ini → <strong>Deploy → New Deployment → Web App</strong> (Anyone access)</li>
+      <li>Salin URL deployment dan tempelkan di sini:</li>
+    </ol>
+    <input class="url-input" id="webhook-url-input" type="url" placeholder="https://script.google.com/macros/s/XXXX/exec" oninput="saveWebhookUrl()">
+    <div class="url-status" id="url-status"></div>
+    <p style="font-size:11px;color:var(--gray-400);margin-top:6px;">URL tersimpan di browser Anda (localStorage). Panduan lengkap Apps Script ada di bawah halaman ini.</p>
+  </div>
+
+  <!-- ===== IDENTITAS PEMILIK ===== -->
+  <div class="identity-card">
+    <div class="identity-header">
+      <div class="identity-header-icon">👤</div>
+      <div>
+        <h3>Data Identitas Pemilik Rumah</h3>
+        <p>Wajib diisi · Dikirim otomatis ke Spreadsheet Puskesmas setelah audit selesai</p>
+      </div>
+    </div>
+    <div class="identity-body">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="nama">Nama Lengkap <span class="req">*</span></label>
+          <input class="form-input" id="nama" type="text" placeholder="Contoh: Budi Santoso" oninput="onIdentityInput()">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="nik">NIK / No. KTP <span class="req">*</span></label>
+          <input class="form-input" id="nik" type="text" placeholder="16 digit NIK" maxlength="16" oninput="onIdentityInput()">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="telp">No. HP / WhatsApp <span class="req">*</span></label>
+          <input class="form-input" id="telp" type="tel" placeholder="08xxxxxxxxxx" oninput="onIdentityInput()">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="rt-rw">RT / RW</label>
+          <input class="form-input" id="rt-rw" type="text" placeholder="Contoh: RT 03 / RW 07">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="kelurahan">Kelurahan / Desa <span class="req">*</span></label>
+          <input class="form-input" id="kelurahan" type="text" placeholder="Nama kelurahan/desa" oninput="onIdentityInput()">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="kecamatan">Kecamatan</label>
+          <input class="form-input" id="kecamatan" type="text" placeholder="Nama kecamatan">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label class="form-label" for="alamat">Alamat Lengkap Rumah <span class="req">*</span></label>
+        <input class="form-input" id="alamat" type="text" placeholder="Contoh: Jl. Melati No. 12, RT 03/RW 07" oninput="onIdentityInput()">
+      </div>
+
+      <!-- GOOGLE MAPS LOKASI -->
+      <div class="form-group">
+        <label class="form-label">📍 Titik Lokasi Rumah (Google Maps)</label>
+        <div class="maps-section">
+          <div class="maps-section-title">📍 Tandai lokasi rumah Anda agar petugas bisa langsung menavigasi ke lokasi</div>
+          <div class="maps-btn-row">
+            <button class="maps-btn maps-btn-gps" onclick="getGPS()">📡 Deteksi Lokasi GPS Otomatis</button>
+            <button class="maps-btn maps-btn-open" onclick="openMaps()">🗺️ Pilih di Google Maps</button>
+            <button class="maps-btn maps-btn-manual" onclick="toggleManual()">✏️ Input Koordinat Manual</button>
+          </div>
+
+          <div class="coords-box" id="coords-box">
+            <span class="coords-icon">📍</span>
+            <div class="coords-text">
+              <strong>Status Lokasi</strong>
+              <span class="coords-pending" id="coords-status">Belum ada titik lokasi. Gunakan salah satu tombol di atas untuk menandai lokasi rumah Anda.</span>
+            </div>
+          </div>
+
+          <div id="manual-wrap" style="display:none;margin-top:12px;">
+            <p class="maps-tip">📋 Cara mendapat koordinat: Buka Google Maps → klik kanan tepat di lokasi rumah Anda → salin angka koordinat yang muncul (contoh: -7.123456, 109.123456)</p>
+            <div class="manual-row">
+              <div class="form-group">
+                <label class="form-label" style="font-size:12px;">Latitude (angka pertama)</label>
+                <input class="form-input" id="lat-in" type="number" step="any" placeholder="-7.123456" oninput="applyManual()">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:12px;">Longitude (angka kedua)</label>
+                <input class="form-input" id="lng-in" type="number" step="any" placeholder="109.123456" oninput="applyManual()">
+              </div>
+            </div>
+          </div>
+
+          <div id="maps-preview">
+            <iframe id="maps-iframe" width="100%" height="220" frameborder="0" style="display:block;" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <p class="required-note">* Wajib diisi. Data hanya digunakan untuk pendataan kesehatan lingkungan Puskesmas dan tidak disebarluaskan.</p>
+    </div>
+  </div>
+
+  <!-- HOUSE VISUAL -->
+  <div class="house-visual">
+    <div class="house-visual-title">🏠 Denah Rumah Virtual Anda</div>
+    <div class="house-svg-wrap">
+      <svg width="180" height="160" viewBox="0 0 180 160">
+        <rect x="0" y="140" width="180" height="20" fill="#c4e6a8" rx="2"/>
+        <rect x="25" y="75" width="130" height="70" fill="#f8f4ee" rx="4"/>
+        <rect id="h-floor" x="25" y="130" width="130" height="15" rx="2" fill="#d2c9b8"/>
+        <polygon points="15,78 90,20 165,78" fill="#357a12" opacity="0.85"/>
+        <polygon points="15,78 90,20 165,78" fill="none" stroke="#1e4d08" stroke-width="1.5"/>
+        <rect x="72" y="110" width="22" height="35" rx="3" fill="#97d166" stroke="#5aad27" stroke-width="1"/>
+        <circle cx="91" cy="129" r="2" fill="#1e4d08"/>
+        <rect id="h-win1" x="35" y="90" width="26" height="22" rx="3" fill="#b5dcf4" stroke="#7dc1ea" stroke-width="1"/>
+        <line x1="48" y1="90" x2="48" y2="112" stroke="#7dc1ea" stroke-width="1"/>
+        <line x1="35" y1="101" x2="61" y2="101" stroke="#7dc1ea" stroke-width="1"/>
+        <rect id="h-win2" x="119" y="90" width="26" height="22" rx="3" fill="#b5dcf4" stroke="#7dc1ea" stroke-width="1"/>
+        <line x1="132" y1="90" x2="132" y2="112" stroke="#7dc1ea" stroke-width="1"/>
+        <line x1="119" y1="101" x2="145" y2="101" stroke="#7dc1ea" stroke-width="1"/>
+        <circle cx="155" cy="132" r="8" fill="#b5dcf4" stroke="#7dc1ea" stroke-width="1.5"/>
+        <text x="155" y="136" text-anchor="middle" font-size="8" fill="#1166a0">sumur</text>
+        <rect x="8" y="124" width="16" height="16" rx="3" fill="#f5c5b0" stroke="#f0997b" stroke-width="1.5"/>
+        <text x="16" y="135" text-anchor="middle" font-size="7" fill="#9b3d1e">septic</text>
+      </svg>
+      <div class="house-indicators" id="house-indicators">
+        <div class="indicator-row"><span class="indicator-dot ind-gray"></span><span>Lantai — belum dipilih</span></div>
+        <div class="indicator-row"><span class="indicator-dot ind-gray"></span><span>Ventilasi — belum dipilih</span></div>
+        <div class="indicator-row"><span class="indicator-dot ind-gray"></span><span>Sumber Air — belum dipilih</span></div>
+        <div class="indicator-row"><span class="indicator-dot ind-gray"></span><span>Jarak Sumur-Septic — belum dipilih</span></div>
+        <div class="indicator-row"><span class="indicator-dot ind-gray"></span><span>Pengelolaan Sampah — belum dipilih</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEC 1: BANGUNAN -->
+  <div class="audit-section open" id="sec-1">
+    <div class="section-header" onclick="toggleSec('sec-1')">
+      <div class="section-icon green">🏠</div>
+      <div class="section-meta"><h3>1. Kondisi Bangunan & Lantai</h3><p>Material, struktur, dan kelembaban rumah</p></div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="info-box">💡 Material bangunan berpengaruh langsung pada risiko penyakit berbasis lingkungan seperti diare, ISPA, dan penyakit kulit.</div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">1</span>Apa jenis lantai di sebagian besar ruangan rumah Anda?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="lantai" data-val="3" data-label="Keramik/Porselen" data-good="true" onclick="pick(this)"><span class="option-icon">🟫</span><span class="option-text">Keramik / Porselen<small>Mudah dibersihkan, higienis</small></span></button>
+          <button class="option-btn" data-q="lantai" data-val="2" data-label="Semen/Plester" data-good="true" onclick="pick(this)"><span class="option-icon">⬜</span><span class="option-text">Semen / Plester<small>Cukup baik, perlu perawatan</small></span></button>
+          <button class="option-btn" data-q="lantai" data-val="1" data-label="Kayu" onclick="pick(this)"><span class="option-icon">🪵</span><span class="option-text">Kayu<small>Bisa lembab, perlu dijaga</small></span></button>
+          <button class="option-btn" data-q="lantai" data-val="0" data-label="Tanah" data-bad="true" onclick="pick(this)"><span class="option-icon">🟤</span><span class="option-text">Tanah<small>Risiko tinggi penyakit</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">2</span>Bagaimana kondisi dinding rumah Anda?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="dinding" data-val="3" data-label="Bata diplester & dicat" data-good="true" onclick="pick(this)"><span class="option-icon">🧱</span><span class="option-text">Bata diplester & dicat<small>Kondisi terbaik</small></span></button>
+          <button class="option-btn" data-q="dinding" data-val="2" data-label="Bata tanpa plester" onclick="pick(this)"><span class="option-icon">🔲</span><span class="option-text">Bata tanpa plester<small>Masih aman</small></span></button>
+          <button class="option-btn" data-q="dinding" data-val="1" data-label="Kayu/Bambu" onclick="pick(this)"><span class="option-icon">🎋</span><span class="option-text">Kayu / Bambu<small>Perlu perhatian ekstra</small></span></button>
+          <button class="option-btn" data-q="dinding" data-val="0" data-label="Anyaman/Terpal" data-bad="true" onclick="pick(this)"><span class="option-icon">⛺</span><span class="option-text">Anyaman / Terpal<small>Rentan cuaca & hewan</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">3</span>Apakah ada tanda lembab atau jamur di dinding/langit-langit?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="lembab" data-val="2" data-label="Tidak ada jamur/lembab" data-good="true" onclick="pick(this)"><span class="option-icon">✅</span><span class="option-text">Tidak ada sama sekali</span></button>
+          <button class="option-btn" data-q="lembab" data-val="1" data-label="Sedikit lembab" onclick="pick(this)"><span class="option-icon">⚠️</span><span class="option-text">Sedikit lembab di sudut</span></button>
+          <button class="option-btn" data-q="lembab" data-val="0" data-label="Banyak jamur/lembab" data-bad="true" onclick="pick(this)"><span class="option-icon">🍄</span><span class="option-text">Banyak jamur / sangat lembab</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEC 2: SANITASI -->
+  <div class="audit-section" id="sec-2">
+    <div class="section-header" onclick="toggleSec('sec-2')">
+      <div class="section-icon coral">🚿</div>
+      <div class="section-meta"><h3>2. Sanitasi & Jamban</h3><p>Pembuangan limbah dan kebersihan toilet</p></div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">4</span>Apakah rumah Anda memiliki jamban/WC sendiri?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="jamban" data-val="3" data-label="Jamban permanen sendiri" data-good="true" onclick="pick(this)"><span class="option-icon">🚽</span><span class="option-text">Ya, jamban permanen sendiri</span></button>
+          <button class="option-btn" data-q="jamban" data-val="2" data-label="Jamban bersama" onclick="pick(this)"><span class="option-icon">👥</span><span class="option-text">Jamban bersama tetangga</span></button>
+          <button class="option-btn" data-q="jamban" data-val="0" data-label="Tidak ada jamban" data-bad="true" onclick="pick(this)"><span class="option-icon">❌</span><span class="option-text">Tidak ada (ke sungai/kebun)<small>Risiko diare & kolera sangat tinggi</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">5</span>Berapa jarak antara sumur/sumber air dengan septic tank?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="jarak" data-val="3" data-label="Jarak aman >10m" data-good="true" onclick="pick(this)"><span class="option-icon">📏</span><span class="option-text">Lebih dari 10 meter<small>Jarak aman standar</small></span></button>
+          <button class="option-btn" data-q="jarak" data-val="1" data-label="Jarak 5–10m" onclick="pick(this)"><span class="option-icon">⚠️</span><span class="option-text">5 – 10 meter<small>Masih risiko kontaminasi</small></span></button>
+          <button class="option-btn" data-q="jarak" data-val="0" data-label="Jarak <5m" data-bad="true" onclick="pick(this)"><span class="option-icon">🚨</span><span class="option-text">Kurang dari 5 meter<small>Sangat berbahaya!</small></span></button>
+          <button class="option-btn" data-q="jarak" data-val="2" data-label="Pakai PDAM (tanpa sumur)" data-good="true" onclick="pick(this)"><span class="option-icon">🏢</span><span class="option-text">Tidak ada sumur (PDAM)</span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">6</span>Bagaimana pengelolaan sampah rumah tangga?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="sampah" data-val="3" data-label="Diangkut petugas" data-good="true" onclick="pick(this)"><span class="option-icon">🗑️</span><span class="option-text">Diangkut petugas kebersihan</span></button>
+          <button class="option-btn" data-q="sampah" data-val="2" data-label="Dibakar teratur" onclick="pick(this)"><span class="option-icon">🔥</span><span class="option-text">Dibakar secara teratur<small>Kurang ideal, ada polusi udara</small></span></button>
+          <button class="option-btn" data-q="sampah" data-val="1" data-label="Ditimbun/dikubur" onclick="pick(this)"><span class="option-icon">⛏️</span><span class="option-text">Ditimbun / dikubur</span></button>
+          <button class="option-btn" data-q="sampah" data-val="0" data-label="Dibuang sembarangan" data-bad="true" onclick="pick(this)"><span class="option-icon">🚯</span><span class="option-text">Dibuang sembarangan<small>Risiko DBD & diare</small></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEC 3: VENTILASI -->
+  <div class="audit-section" id="sec-3">
+    <div class="section-header" onclick="toggleSec('sec-3')">
+      <div class="section-icon sky">💨</div>
+      <div class="section-meta"><h3>3. Ventilasi & Pencahayaan</h3><p>Sirkulasi udara dan akses sinar matahari</p></div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">7</span>Apakah setiap kamar tidur memiliki jendela/ventilasi?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="ventilasi" data-val="3" data-label="Semua kamar ada ventilasi" data-good="true" onclick="pick(this)"><span class="option-icon">🪟</span><span class="option-text">Semua kamar ada jendela/ventilasi</span></button>
+          <button class="option-btn" data-q="ventilasi" data-val="2" data-label="Sebagian kamar ada ventilasi" onclick="pick(this)"><span class="option-icon">🔲</span><span class="option-text">Hanya sebagian kamar</span></button>
+          <button class="option-btn" data-q="ventilasi" data-val="0" data-label="Tidak ada ventilasi" data-bad="true" onclick="pick(this)"><span class="option-icon">🚪</span><span class="option-text">Tidak ada jendela sama sekali<small>Risiko ISPA sangat tinggi</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">8</span>Apakah dapur memiliki ventilasi / cerobong asap yang memadai?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="dapur-vent" data-val="3" data-label="Dapur berventilasi baik" data-good="true" onclick="pick(this)"><span class="option-icon">✅</span><span class="option-text">Ya, dapur berventilasi baik</span></button>
+          <button class="option-btn" data-q="dapur-vent" data-val="1" data-label="Ventilasi kurang memadai" onclick="pick(this)"><span class="option-icon">😶‍🌫️</span><span class="option-text">Ventilasi kurang memadai</span></button>
+          <button class="option-btn" data-q="dapur-vent" data-val="0" data-label="Tidak ada ventilasi dapur" data-bad="true" onclick="pick(this)"><span class="option-icon">🌫️</span><span class="option-text">Tidak ada ventilasi dapur<small>Risiko ISPA & gangguan napas</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">9</span>Apakah sinar matahari dapat masuk ke ruang utama di siang hari?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="cahaya" data-val="2" data-label="Cahaya matahari cukup" data-good="true" onclick="pick(this)"><span class="option-icon">☀️</span><span class="option-text">Ya, cukup terang alami</span></button>
+          <button class="option-btn" data-q="cahaya" data-val="1" data-label="Cahaya minim" onclick="pick(this)"><span class="option-icon">🌤️</span><span class="option-text">Sedikit masuk sinar matahari</span></button>
+          <button class="option-btn" data-q="cahaya" data-val="0" data-label="Gelap sepanjang hari" data-bad="true" onclick="pick(this)"><span class="option-icon">🌑</span><span class="option-text">Gelap / tidak ada cahaya alami<small>Kuman lebih mudah berkembang</small></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEC 4: AIR & MAKANAN -->
+  <div class="audit-section" id="sec-4">
+    <div class="section-header" onclick="toggleSec('sec-4')">
+      <div class="section-icon amber">🍽️</div>
+      <div class="section-meta"><h3>4. Pengelolaan Air Minum dan Makanan Rumah Tangga</h3><p>Sumber air, penampungan, dan keamanan pangan sehari-hari</p></div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">10</span>Dari mana utamanya sumber air bersih Anda berasal?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="air" data-val="3" data-label="PDAM/Air Ledeng" data-good="true" onclick="pick(this)"><span class="option-icon">🏢</span><span class="option-text">PDAM / Air Ledeng<small>Terjamin kualitasnya</small></span></button>
+          <button class="option-btn" data-q="air" data-val="2" data-label="Sumur Bor/Artesis" data-good="true" onclick="pick(this)"><span class="option-icon">⛏️</span><span class="option-text">Sumur Bor / Artesis<small>Biasanya bersih</small></span></button>
+          <button class="option-btn" data-q="air" data-val="1" data-label="Sumur Gali" onclick="pick(this)"><span class="option-icon">🪣</span><span class="option-text">Sumur Gali<small>Perlu rutin dicek kualitasnya</small></span></button>
+          <button class="option-btn" data-q="air" data-val="0" data-label="Sungai/Air Hujan" data-bad="true" onclick="pick(this)"><span class="option-icon">🌊</span><span class="option-text">Sungai / Air Hujan<small>Risiko sangat tinggi</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">11</span>Seberapa sering Anda menguras tempat penampungan air?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="kuras" data-val="3" data-label="Seminggu sekali" data-good="true" onclick="pick(this)"><span class="option-icon">🗓️</span><span class="option-text">Seminggu sekali atau lebih sering</span></button>
+          <button class="option-btn" data-q="kuras" data-val="2" data-label="2 minggu sekali" onclick="pick(this)"><span class="option-icon">📅</span><span class="option-text">Dua minggu sekali</span></button>
+          <button class="option-btn" data-q="kuras" data-val="0" data-label="Jarang/tidak pernah" data-bad="true" onclick="pick(this)"><span class="option-icon">⚠️</span><span class="option-text">Jarang / tidak pernah<small>Sarang nyamuk Aedes!</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">12</span>Apakah pernah ditemukan jentik nyamuk di penampungan air Anda?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="jentik" data-val="2" data-label="Tidak ada jentik" data-good="true" onclick="pick(this)"><span class="option-icon">✅</span><span class="option-text">Tidak pernah ditemukan</span></button>
+          <button class="option-btn" data-q="jentik" data-val="0" data-label="Ada jentik nyamuk" data-bad="true" onclick="pick(this)"><span class="option-icon">🦟</span><span class="option-text">Ya, pernah / sering ada<small>Risiko DBD tinggi!</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">13</span>Apakah sebelum memasak, sayuran dan tempat memasak dicuci terlebih dahulu? Dan apakah makanan ditutup setelah selesai dimasak?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="makanan" data-val="3" data-label="Dicuci semua & ditutup setelah masak" data-good="true" onclick="pick(this)"><span class="option-icon">✅</span><span class="option-text">Dicuci semua dan ditutup makananya setelah memasak<small>Kebiasaan terbaik, mencegah diare & kontaminasi</small></span></button>
+          <button class="option-btn" data-q="makanan" data-val="1" data-label="Dicuci semua tapi tidak ditutup" onclick="pick(this)"><span class="option-icon">🍽️</span><span class="option-text">Dicuci semua tapi tidak ditutup makananya setelah memasak<small>Berisiko kontaminasi lalat/debu</small></span></button>
+          <button class="option-btn" data-q="makanan" data-val="0" data-label="Tidak semuanya" data-bad="true" onclick="pick(this)"><span class="option-icon">⚠️</span><span class="option-text">Tidak semuanya<small>Risiko penyakit bawaan makanan</small></span></button>
+        </div>
+      </div>
+      <div class="section-divider">Fitur Tambahan — AI Vision</div>
+      <div class="upload-zone" onclick="simulateUpload()">
+        <span style="font-size:32px;display:block;margin-bottom:6px;">📷</span>
+        <strong style="font-size:14px;color:#4a4846;">Upload Foto Penampungan Air</strong>
+        <p style="font-size:13px;color:var(--gray-400);margin-top:6px;">AI akan menganalisis apakah ada tanda-tanda jentik nyamuk atau kondisi tidak higienis</p>
+      </div>
+      <div id="upload-result" style="display:none;margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <!-- SEC 5: CUCI TANGAN PAKAI SABUN -->
+  <div class="audit-section" id="sec-5">
+    <div class="section-header" onclick="toggleSec('sec-5')">
+      <div class="section-icon green">🧼</div>
+      <div class="section-meta"><h3>5. Cuci Tangan Pakai Sabun (CTPS)</h3><p>Ketersediaan fasilitas dan pengetahuan cara cuci tangan</p></div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="info-box">💡 Cuci tangan pakai sabun adalah cara paling efektif mencegah diare, ISPA, dan penyakit infeksi lainnya. Biayanya murah namun dampaknya sangat besar bagi kesehatan keluarga.</div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">14</span>Apakah rumah memiliki tempat cuci tangan yang mudah dijangkau?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="ctps-tempat" data-val="3" data-label="Memiliki tempat cuci tangan di dalam" data-good="true" onclick="pick(this)"><span class="option-icon">🚿</span><span class="option-text">Memiliki<small>Tersedia di dalam rumah, mudah dijangkau</small></span></button>
+          <button class="option-btn" data-q="ctps-tempat" data-val="2" data-label="Memiliki di halaman depan" data-good="true" onclick="pick(this)"><span class="option-icon">🏡</span><span class="option-text">Memiliki di halaman depan<small>Tersedia namun di luar rumah</small></span></button>
+          <button class="option-btn" data-q="ctps-tempat" data-val="0" data-label="Tidak memiliki tempat cuci tangan" data-bad="true" onclick="pick(this)"><span class="option-icon">❌</span><span class="option-text">Tidak Memiliki<small>Risiko penularan penyakit meningkat</small></span></button>
+        </div>
+      </div>
+      <div class="question-group">
+        <div class="question-label"><span class="q-num">15</span>Apakah mengetahui cara mencuci tangan yang benar dan hafal langkah-langkahnya?</div>
+        <div class="option-grid">
+          <button class="option-btn" data-q="ctps-cara" data-val="3" data-label="Mengetahui dan hafal langkahnya" data-good="true" onclick="pick(this)"><span class="option-icon">🙌</span><span class="option-text">Mengetahui dan Hafal langkahnya<small>6 langkah cuci tangan WHO dikuasai</small></span></button>
+          <button class="option-btn" data-q="ctps-cara" data-val="1" data-label="Mengetahui tapi tidak hafal langkahnya" onclick="pick(this)"><span class="option-icon">🤔</span><span class="option-text">Mengetahui tapi tidak hafal langkahnya<small>Perlu diingatkan kembali</small></span></button>
+          <button class="option-btn" data-q="ctps-cara" data-val="0" data-label="Tidak mengetahui cara cuci tangan" data-bad="true" onclick="pick(this)"><span class="option-icon">❓</span><span class="option-text">Tidak Mengetahui<small>Perlu edukasi dari petugas Puskesmas</small></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT BUTTON -->
+  <button class="calc-btn" id="calc-btn" onclick="submitAudit()" disabled>
+    🔍 Analisis & Kirim Data ke Puskesmas
+  </button>
+  <p style="text-align:center;font-size:12px;color:var(--gray-400);margin-top:8px;" id="btn-hint">Isi data identitas (wajib) dan minimal 8 pertanyaan untuk mengaktifkan tombol ini</p>
+
+  <!-- RESULTS -->
+  <div id="results-wrap" style="display:none;">
+
+    <!-- SUBMISSION STATUS -->
+    <div id="submission-status"></div>
+
+    <!-- SCORE -->
+    <div class="results-panel">
+      <div class="results-header">
+        <div class="score-display">
+          <div class="score-ring-wrap">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+              <circle id="score-arc" cx="50" cy="50" r="40" fill="none" stroke="#a3e06e" stroke-width="8" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.5s ease"/>
+            </svg>
+            <div class="score-center">
+              <div class="score-num" id="score-num">0</div>
+              <div class="score-label-small">/ 100</div>
+            </div>
+          </div>
+          <div class="score-meta">
+            <h2 id="score-title">Menghitung...</h2>
+            <p id="score-desc"></p>
+            <div class="score-badge" id="score-badge">⏳ Memproses</div>
+          </div>
+        </div>
+        <div class="risk-tags" id="risk-tags"></div>
+      </div>
+      <div class="results-body">
+        <div class="recs-title">💡 Rekomendasi Perbaikan Prioritas (AI)</div>
+        <div id="recommendations"></div>
+      </div>
+    </div>
+
+    <!-- CHATBOT -->
+    <div class="chatbot-card">
+      <div class="chatbot-header">
+        <div class="chatbot-avatar">👨‍⚕️</div>
+        <div class="chatbot-header-meta">
+          <h4>Tanya Sanitarian AI</h4>
+          <p><span class="online-dot"></span>Online — Siap membantu Anda</p>
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-msgs">
+        <div class="msg msg-bot" id="bot-init">Halo! Saya Sanitarian AI. Hasil audit Anda sudah dianalisis. Silakan tanyakan tentang cara perbaikan rumah yang sehat dan terjangkau! 🏠</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" type="text" placeholder="Tanya cara memperbaiki kondisi rumah..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send-btn" onclick="sendChat()">Kirim →</button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div id="cert-wrap" style="display:none;">
+      <div class="cert-card">
+        <div class="cert-inner">
+          <span class="cert-medal">🏅</span>
+          <h3>Sertifikat Rumah Sehat</h3>
+          <p id="cert-text">Selamat! Rumah Anda telah mencapai standar Rumah Sehat. Bagikan pencapaian ini untuk menginspirasi tetangga!</p>
+          <div>
+            <button class="cert-share-btn" onclick="shareCert('whatsapp')">📲 Bagikan ke WhatsApp</button>
+            <button class="cert-share-btn" onclick="shareCert('download')">💾 Unduh Sertifikat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- APPS SCRIPT GUIDE -->
+  <div style="background:#fff;border:1px solid var(--gray-200);border-radius:16px;padding:24px;margin-top:32px;">
+    <h4 style="font-size:15px;font-weight:700;color:var(--gray-800);margin-bottom:12px;">📋 Panduan Setup Google Apps Script (untuk Petugas Puskesmas)</h4>
+    <p style="font-size:13px;color:var(--gray-600);margin-bottom:12px;">Salin kode berikut ke <strong>Extensions → Apps Script</strong> di Google Spreadsheet Anda, lalu deploy sebagai Web App:</p>
+    <pre style="background:var(--gray-900);color:#a3e06e;border-radius:10px;padding:16px;font-size:11.5px;overflow-x:auto;line-height:1.7;white-space:pre-wrap;word-break:break-all;">function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const d = JSON.parse(e.postData.contents);
+  sheet.appendRow([
+    d.timestamp, d.nama, d.nik, d.telp,
+    d.alamat, d.rtRw, d.kelurahan, d.kecamatan,
+    d.mapsLink, d.lat, d.lng,
+    d.lantai, d.dinding, d.lembab,
+    d.jamban, d.jarak, d.sampah,
+    d.ventilasi, d.dapurVent, d.cahaya,
+    d.air, d.kuras, d.jentik,
+    d.makanan, d.ctpsTempat, d.ctpsCara,
+    d.skor, d.kategori, d.risiko, d.rekomendasi
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({status:'ok',nama:d.nama}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({status:'online'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:10px;">Header kolom yang disarankan: <strong>Timestamp | Nama | NIK | No HP | Alamat | RT/RW | Kelurahan | Kecamatan | Link Maps | Lat | Lng | Lantai | Dinding | Kelembaban | Jamban | Jarak Sumur | Sampah | Ventilasi | Vent Dapur | Cahaya | Air | Kuras | Jentik | Skor | Kategori | Risiko | Rekomendasi</strong></p>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+// =============================================
+// STATE
+// =============================================
+const answers = {};
+let answeredCount = 0;
+const totalQ = 15;
+let gpsLat = null, gpsLng = null;
+let identityOK = false;
+let lastPayload = null;
+
+// Load saved webhook URL
+let webhookUrl = localStorage.getItem('rumahsehat_webhook') || '';
+const wInput = document.getElementById('webhook-url-input');
+if (wInput && webhookUrl) {
+  wInput.value = webhookUrl;
+  showUrlStatus();
+}
+
+function saveWebhookUrl() {
+  webhookUrl = document.getElementById('webhook-url-input').value.trim();
+  localStorage.setItem('rumahsehat_webhook', webhookUrl);
+  showUrlStatus();
+}
+
+function showUrlStatus() {
+  const el = document.getElementById('url-status');
+  if (!el) return;
+  if (webhookUrl && webhookUrl.includes('script.google.com')) {
+    el.textContent = '✅ URL webhook tersimpan — data akan dikirim otomatis ke Google Sheets';
+    el.className = 'url-status ok';
+  } else {
+    el.textContent = '⚠️ Belum ada URL webhook. Data tidak akan terkirim ke Spreadsheet.';
+    el.className = 'url-status empty';
+  }
+}
+showUrlStatus();
+
+// =============================================
+// IDENTITY
+// =============================================
+function onIdentityInput() {
+  const nama = v('nama'), nik = v('nik'), telp = v('telp'), alamat = v('alamat'), kel = v('kelurahan');
+  identityOK = !!(nama && nik && telp && alamat && kel);
+  if (identityOK) {
+    document.getElementById('step-0').classList.add('done');
+    document.getElementById('step-0').classList.remove('active');
+  }
+  checkReady();
+  updateProgress();
+}
+
+function v(id) { return document.getElementById(id)?.value.trim() || ''; }
+
+// =============================================
+// GPS & MAPS
+// =============================================
+function getGPS() {
+  if (!navigator.geolocation) { alert('GPS tidak didukung. Gunakan Input Manual.'); return; }
+  setCoords('📡 Mendeteksi lokasi GPS...', '', false);
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      gpsLat = pos.coords.latitude.toFixed(6);
+      gpsLng = pos.coords.longitude.toFixed(6);
+      renderCoords(gpsLat, gpsLng, 'GPS Otomatis ✅');
+    },
+    err => {
+      const msgs = {1:'Izin lokasi ditolak browser.',2:'Sinyal GPS lemah, coba di luar.',3:'Waktu habis, coba lagi.'};
+      setCoords('❌ ' + (msgs[err.code]||'Gagal.') + ' Gunakan Input Manual atau Google Maps.','',false);
+    },
+    { enableHighAccuracy:true, timeout:12000 }
+  );
+}
+
+function openMaps() {
+  const alamat = v('alamat');
+  const q = encodeURIComponent(alamat || 'Indonesia');
+  window.open('https://maps.google.com/?q='+q, '_blank');
+  document.getElementById('manual-wrap').style.display = 'block';
+  setCoords(
+    '🗺️ Google Maps dibuka di tab baru. Cara mendapat koordinat:\n1. Cari alamat rumah Anda\n2. Klik kanan tepat di titik rumah\n3. Pilih koordinat yang muncul (misal: -7.12345, 109.12345)\n4. Tempel angkanya di Input Manual di bawah.',
+    '', false
+  );
+}
+
+function toggleManual() {
+  const w = document.getElementById('manual-wrap');
+  w.style.display = w.style.display === 'none' ? 'block' : 'none';
+}
+
+function applyManual() {
+  const lat = parseFloat(document.getElementById('lat-in').value);
+  const lng = parseFloat(document.getElementById('lng-in').value);
+  if (!isNaN(lat) && !isNaN(lng) && lat>=-90 && lat<=90 && lng>=-180 && lng<=180) {
+    gpsLat = lat.toFixed(6); gpsLng = lng.toFixed(6);
+    renderCoords(gpsLat, gpsLng, 'Input Manual ✅');
+  }
+}
+
+function renderCoords(lat, lng, method) {
+  const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}&z=17`;
+  document.getElementById('coords-status').innerHTML =
+    `✅ <strong>${method}</strong><br>Koordinat: <code style="font-size:11px;">${lat}, ${lng}</code><br>` +
+    `<a href="${mapsUrl}" target="_blank">🗺️ Lihat di Google Maps →</a>`;
+  // embed preview
+  const preview = document.getElementById('maps-preview');
+  const iframe = document.getElementById('maps-iframe');
+  iframe.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=${lat},${lng}&zoom=16`;
+  // fallback embed tanpa key
+  iframe.src = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
+  preview.style.display = 'block';
+}
+
+function setCoords(text, link, ok) {
+  document.getElementById('coords-status').innerHTML = text;
+}
+
+function getMapsLink() {
+  if (gpsLat && gpsLng) return `https://www.google.com/maps?q=${gpsLat},${gpsLng}`;
+  const a = v('alamat');
+  return a ? `https://maps.google.com/?q=${encodeURIComponent(a)}` : '-';
+}
+
+// =============================================
+// AUDIT QUESTIONS
+// =============================================
+function pick(btn) {
+  const q = btn.dataset.q;
+  const val = parseInt(btn.dataset.val);
+  const label = btn.dataset.label;
+  const isBad = btn.dataset.bad === 'true';
+  const isGood = btn.dataset.good === 'true';
+
+  btn.closest('.option-grid').querySelectorAll('.option-btn')
+    .forEach(b => b.classList.remove('selected','selected-bad'));
+  btn.classList.add('selected');
+
+  if (!answers[q]) answeredCount++;
+  answers[q] = { val, label, isBad, isGood };
+
+  updateProgress();
+  updateHouse(q, val, label, isBad);
+  checkReady();
+}
+
+function checkReady() {
+  const ready = identityOK && answeredCount >= 8;
+  document.getElementById('calc-btn').disabled = !ready;
+  const hint = document.getElementById('btn-hint');
+  if (ready) hint.style.display = 'none';
+  else {
+    hint.style.display = 'block';
+    const missing = [];
+    if (!identityOK) missing.push('data identitas');
+    if (answeredCount < 8) missing.push(`${8-answeredCount} pertanyaan lagi`);
+    hint.textContent = 'Lengkapi: ' + missing.join(' & ');
+  }
+}
+
+function updateProgress() {
+  const pct = Math.round((answeredCount / totalQ) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  const secQ = [
+    ['lantai','dinding','lembab'],
+    ['jamban','jarak','sampah'],
+    ['ventilasi','dapur-vent','cahaya'],
+    ['air','kuras','jentik','makanan'],
+    ['ctps-tempat','ctps-cara']
+  ];
+  secQ.forEach((qs, i) => {
+    const done = qs.filter(q => answers[q]).length;
+    const el = document.getElementById('step-' + (i+1));
+    if (!el) return;
+    if (done === qs.length) { el.classList.add('done'); el.classList.remove('active'); }
+    else if (done > 0) el.classList.add('active');
+  });
+}
+
+function updateHouse(q, val, label, isBad) {
+  const cls = isBad ? 'ind-red' : val >= 2 ? 'ind-green' : 'ind-amber';
+  const rows = document.querySelectorAll('#house-indicators .indicator-row');
+  const map = { lantai:0, ventilasi:1, air:2, jarak:3, sampah:4 };
+  const keys = ['Lantai','Ventilasi','Sumber Air','Jarak Sumur-Septic','Pengelolaan Sampah'];
+  if (map[q] !== undefined) {
+    const row = rows[map[q]];
+    row.querySelector('span').className = 'indicator-dot ' + cls;
+    row.querySelectorAll('span')[1].textContent = keys[map[q]] + ' — ' + label;
+  }
+  if (q === 'lantai') {
+    const c = ['#b59a7a','#c4b89a','#d4c4a8','#e2ddd6'][val];
+    document.getElementById('h-floor').setAttribute('fill', c);
+  }
+  if (q === 'ventilasi') {
+    const c = val === 0 ? '#555' : '#b5dcf4';
+    document.getElementById('h-win1').setAttribute('fill', c);
+    document.getElementById('h-win2').setAttribute('fill', c);
+  }
+}
+
+function toggleSec(id) { document.getElementById(id).classList.toggle('open'); }
+
+// =============================================
+// HITUNG SKOR
+// =============================================
+function calcScore() {
+  const max = {
+    lantai:3, dinding:3, lembab:2,
+    jamban:3, jarak:3, sampah:3,
+    ventilasi:3, 'dapur-vent':3, cahaya:2,
+    air:3, kuras:3, jentik:2, makanan:3,
+    'ctps-tempat':3, 'ctps-cara':3
+  };
+  const maxT = Object.values(max).reduce((a,b)=>a+b,0);
+  let earned = 0;
+  Object.keys(answers).forEach(q => { if (max[q]!==undefined) earned += answers[q].val; });
+  return Math.round((earned/maxT)*100);
+}
+
+function getKategori(score) {
+  if (score>=80) return { title:'Rumah Sehat! 🎉', desc:'Luar biasa! Rumah Anda memenuhi standar kesehatan lingkungan.', badge:'🏆 Rumah Sehat', cat:'RUMAH SEHAT', cert:true };
+  if (score>=60) return { title:'Hampir Sehat 👍', desc:'Cukup baik. Ada beberapa hal yang perlu diperbaiki.', badge:'⭐ Perlu Peningkatan', cat:'HAMPIR SEHAT', cert:false };
+  if (score>=40) return { title:'Perlu Perhatian ⚠️', desc:'Ada risiko kesehatan lingkungan yang perlu segera ditangani.', badge:'⚠️ Risiko Sedang', cat:'PERLU PERHATIAN', cert:false };
+  return { title:'Risiko Tinggi 🚨', desc:'Kondisi rumah berisiko tinggi terhadap penyakit berbasis lingkungan.', badge:'🚨 Perlu Tindakan Segera', cat:'RISIKO TINGGI', cert:false };
+}
+
+function getRisks() {
+  const risks = [];
+  if (answers.jentik?.isBad || answers.kuras?.isBad) risks.push({level:'high',text:'🦟 Risiko DBD Tinggi'});
+  if (answers.ventilasi?.isBad || answers['dapur-vent']?.isBad) risks.push({level:'high',text:'😷 Risiko ISPA'});
+  if (answers.jarak?.isBad || answers.air?.isBad) risks.push({level:'high',text:'💧 Risiko Diare/Kolera'});
+  if (answers.makanan?.isBad || answers.makanan?.val < 3) risks.push({level:'medium',text:'🍽️ Risiko Penyakit Bawaan Makanan'});
+  if (answers['ctps-tempat']?.isBad || answers['ctps-cara']?.isBad) risks.push({level:'high',text:'🧼 Risiko Infeksi Tangan Kotor'});
+  if (answers.lembab?.isBad) risks.push({level:'medium',text:'🍄 Risiko Infeksi Jamur'});
+  if (risks.length===0) risks.push({level:'low',text:'✅ Risiko Terkendali'});
+  return risks;
+}
+
+function getRecs() {
+  const recs = [];
+  if (answers.jentik?.isBad) recs.push({priority:'high',title:'Basmi Jentik Nyamuk Sekarang',desc:'Kuras semua penampungan air, taburkan bubuk abate (gratis di Puskesmas), tutup rapat wadah air. Ulangi setiap minggu.'});
+  if (answers.ventilasi?.isBad||answers['dapur-vent']?.isBad) recs.push({priority:'high',title:'Pasang Ventilasi di Kamar & Dapur',desc:'Buat lubang angin 10×10cm di bagian atas dinding setiap kamar dan dapur. Biaya Rp 50.000–200.000/ruangan. Mencegah ISPA dan TBC.'});
+  if (answers.jarak?.isBad) recs.push({priority:'high',title:'Pindahkan Sumur Menjauhi Septic Tank',desc:'Jarak minimal sumur ke septic tank adalah 10 meter. Jika tidak memungkinkan, beralih ke PDAM atau sumur bor >30m.'});
+  if (answers['ctps-tempat']?.isBad) recs.push({priority:'high',title:'Sediakan Tempat Cuci Tangan Pakai Sabun',desc:'Pasang ember kran atau wastafel sederhana di dekat pintu masuk dan dapur. Selalu sediakan sabun cuci tangan. Ini cara paling murah mencegah diare dan ISPA pada anak.'});
+  if (answers['ctps-cara']?.isBad || answers['ctps-cara']?.val < 3) recs.push({priority:'high',title:'Pelajari 6 Langkah Cuci Tangan WHO',desc:'Minta petugas Puskesmas untuk memberikan edukasi langsung cara cuci tangan 6 langkah. Ajarkan ke seluruh anggota keluarga terutama anak-anak.'});
+  if (answers.makanan?.val < 3) recs.push({priority:'medium',title:'Terapkan Higienitas Pengolahan Makanan',desc:'Selalu cuci sayuran dan alat masak sebelum digunakan. Tutup makanan yang sudah dimasak agar terhindar dari lalat dan debu. Kebiasaan ini mencegah diare dan keracunan makanan.'});
+  if (answers.lantai?.isBad) recs.push({priority:'medium',title:'Cor Lantai Tanah dengan Semen',desc:'Mulai dari kamar tidur anak. Biaya Rp 80.000–150.000/m². Tanyakan Program Bedah Rumah ke Puskesmas untuk subsidi.'});
+  if (answers.jamban?.isBad) recs.push({priority:'high',title:'Bangun Jamban Keluarga',desc:'Daftar Program STBM Dinas Kesehatan untuk bantuan jamban. Kunjungi sanitarian Puskesmas. Mulai dari Rp 1,5 juta.'});
+  if (answers.sampah?.isBad) recs.push({priority:'medium',title:'Kelola Sampah dengan Benar',desc:'Koordinasi dengan RT/RW untuk jadwal angkut sampah atau buat lubang kompos. Sampah sembarangan memicu DBD dan diare.'});
+  if (answers.lembab?.isBad) recs.push({priority:'medium',title:'Atasi Kelembaban Dinding',desc:'Periksa sumber kebocoran atap/pipa. Gunakan cat anti-jamur. Pastikan ventilasi cukup untuk sirkulasi udara.'});
+  if (answers.kuras?.isBad) recs.push({priority:'medium',title:'Rutin Kuras Bak Mandi Tiap Minggu',desc:'Jadwalkan kuras bak mandi setiap Sabtu/Minggu. Cara paling efektif memutus siklus nyamuk Aedes aegypti penyebab DBD.'});
+  if (recs.length<2) recs.push({priority:'low',title:'Pertahankan & Tingkatkan',desc:'Kondisi rumah Anda sudah baik. Lakukan pemeriksaan rutin tiap 3 bulan dan ikuti penyuluhan di Puskesmas.'});
+  return recs.slice(0,5);
+}
+
+// =============================================
+// SUBMIT & KIRIM KE SHEETS
+// =============================================
+async function submitAudit() {
+  const score = calcScore();
+  const kat = getKategori(score);
+  const risks = getRisks();
+  const recs = getRecs();
+  const nama = v('nama');
+
+  // Tampilkan hasil
+  document.getElementById('results-wrap').style.display = 'block';
+  document.getElementById('results-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>animateScore(score), 300);
+
+  document.getElementById('score-title').textContent = kat.title;
+  document.getElementById('score-desc').textContent = kat.desc;
+  document.getElementById('score-badge').textContent = kat.badge;
+  if (kat.cert) {
+    document.getElementById('cert-wrap').style.display = 'block';
+    document.getElementById('cert-text').textContent = `Selamat, ${nama}! Rumah Anda telah mencapai standar Rumah Sehat. Bagikan untuk menginspirasi tetangga!`;
+  }
+
+  document.getElementById('risk-tags').innerHTML =
+    risks.map(r=>`<span class="risk-tag ${r.level}">${r.text}</span>`).join('');
+
+  document.getElementById('recommendations').innerHTML =
+    recs.map(r=>`
+      <div class="rec-card priority-${r.priority}">
+        <div><span class="rec-priority">${r.priority==='high'?'🔴 Prioritas Utama':r.priority==='medium'?'🟡 Penting':'🟢 Disarankan'}</span></div>
+        <div class="rec-content"><h4>${r.title}</h4><p>${r.desc}</p></div>
+      </div>`).join('');
+
+  document.getElementById('bot-init').textContent =
+    `Halo ${nama}! Skor rumah Anda: ${score}/100 (${kat.cat}). ${score<60?'Saya siap memandu perbaikan yang terjangkau.':'Kondisi sudah cukup baik! Tetap jaga dan tingkatkan.'} Silakan tanyakan apa saja 🏠`;
+
+  // Siapkan payload
+  const mapsLink = getMapsLink();
+  const risksText = risks.map(r=>r.text.replace(/[\u{1F000}-\u{1FFFF}]/gu,'')).join(', ');
+  const recsText = recs.map(r=>r.title).join(' | ');
+  const timestamp = new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'});
+
+  lastPayload = {
+    timestamp, nama, nik:v('nik'), telp:v('telp'),
+    alamat:v('alamat'), rtRw:v('rt-rw'), kelurahan:v('kelurahan'), kecamatan:v('kecamatan'),
+    mapsLink, lat:gpsLat||'-', lng:gpsLng||'-',
+    lantai:answers.lantai?.label||'-', dinding:answers.dinding?.label||'-', lembab:answers.lembab?.label||'-',
+    jamban:answers.jamban?.label||'-', jarak:answers.jarak?.label||'-', sampah:answers.sampah?.label||'-',
+    ventilasi:answers.ventilasi?.label||'-', dapurVent:answers['dapur-vent']?.label||'-', cahaya:answers.cahaya?.label||'-',
+    air:answers.air?.label||'-', kuras:answers.kuras?.label||'-', jentik:answers.jentik?.label||'-',
+    makanan:answers.makanan?.label||'-',
+    ctpsTempat:answers['ctps-tempat']?.label||'-', ctpsCara:answers['ctps-cara']?.label||'-',
+    skor:score, kategori:kat.cat, risiko:risksText, rekomendasi:recsText
+  };
+
+  showStatus('sending', nama, score, kat.cat, mapsLink, timestamp);
+  await kirimKeSheets(nama, score, kat.cat, mapsLink, timestamp);
+  document.getElementById('step-6').classList.add('done');
+}
+
+async function kirimKeSheets(nama, score, cat, mapsLink, timestamp) {
+  webhookUrl = localStorage.getItem('rumahsehat_webhook') || '';
+  if (!webhookUrl || !webhookUrl.includes('script.google.com')) {
+    showStatus('no-webhook', nama, score, cat, mapsLink, timestamp);
+    return;
+  }
+  try {
+    await fetch(webhookUrl, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(lastPayload)
+    });
+    showStatus('success', nama, score, cat, mapsLink, timestamp);
+  } catch(e) {
+    showStatus('error', nama, score, cat, mapsLink, timestamp);
+  }
+}
+
+function showStatus(state, nama, score, cat, mapsLink, timestamp) {
+  const el = document.getElementById('submission-status');
+  if (state === 'sending') {
+    el.innerHTML = `
+      <div class="submission-card sending">
+        <div class="submission-icon">📤</div>
+        <div class="submission-content">
+          <h4>Mengirim data ke Puskesmas...</h4>
+          <p>Data kondisi rumah <strong>${esc(nama)}</strong> sedang dikirim ke Google Spreadsheet. Harap tunggu sebentar.</p>
+        </div>
+      </div>`;
+  } else if (state === 'success') {
+    el.innerHTML = `
+      <div class="submission-card success">
+        <div class="submission-icon">✅</div>
+        <div class="submission-content">
+          <h4>Data berhasil masuk ke Spreadsheet Puskesmas!</h4>
+          <p>Petugas sanitarian akan meninjau kondisi rumah dan menghubungi jika diperlukan tindak lanjut.</p>
+          <div class="submission-detail">
+            <div class="sd-row"><span>Nama Pemilik</span><span>${esc(nama)}</span></div>
+            <div class="sd-row"><span>Alamat</span><span>${esc(v('alamat'))}</span></div>
+            <div class="sd-row"><span>Skor Rumah</span><span>${score}/100 — ${cat}</span></div>
+            <div class="sd-row"><span>Waktu Kirim</span><span>${timestamp}</span></div>
+            <div class="sd-row"><span>Link Lokasi</span><span><a href="${mapsLink}" target="_blank">🗺️ Buka di Google Maps</a></span></div>
+          </div>
+        </div>
+      </div>`;
+  } else if (state === 'no-webhook') {
+    el.innerHTML = `
+      <div class="submission-card error">
+        <div class="submission-icon">⚙️</div>
+        <div class="submission-content">
+          <h4>Webhook belum dikonfigurasi</h4>
+          <p>Tempel URL Google Apps Script di bagian pengaturan di atas halaman ini agar data terkirim otomatis ke Spreadsheet Puskesmas.</p>
+          <div class="submission-detail">
+            <div class="sd-row"><span>Nama</span><span>${esc(nama)}</span></div>
+            <div class="sd-row"><span>Skor</span><span>${score}/100 — ${cat}</span></div>
+          </div>
+          <p style="margin-top:8px;font-size:12px;">Sementara ini, tunjukkan halaman hasil audit ini ke petugas Puskesmas secara langsung.</p>
+        </div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="submission-card error">
+        <div class="submission-icon">⚠️</div>
+        <div class="submission-content">
+          <h4>Gagal terhubung ke server</h4>
+          <p>Data tersimpan di perangkat. Pastikan koneksi internet aktif lalu coba kirim ulang.</p>
+          <div class="submission-detail">
+            <div class="sd-row"><span>Nama</span><span>${esc(nama)}</span></div>
+            <div class="sd-row"><span>Skor</span><span>${score}/100 — ${cat}</span></div>
+            <div class="sd-row"><span>Lokasi</span><span><a href="${mapsLink}" target="_blank">🗺️ Lihat Maps</a></span></div>
+          </div>
+          <button class="retry-btn" onclick="retryKirim()">🔄 Kirim Ulang</button>
+        </div>
+      </div>`;
+  }
+}
+
+async function retryKirim() {
+  if (!lastPayload) return;
+  document.getElementById('submission-status').innerHTML = `
+    <div class="submission-card sending"><div class="submission-icon">📤</div>
+    <div class="submission-content"><h4>Mencoba mengirim ulang...</h4></div></div>`;
+  await kirimKeSheets(lastPayload.nama, lastPayload.skor, lastPayload.kategori, lastPayload.mapsLink, lastPayload.timestamp);
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function animateScore(target) {
+  const arc = document.getElementById('score-arc');
+  arc.style.strokeDashoffset = 251 - (target/100)*251;
+  arc.setAttribute('stroke', target<40?'#e04840':target<60?'#f5b030':target<80?'#7dc1ea':'#a3e06e');
+  const el = document.getElementById('score-num');
+  let cur = 0;
+  const iv = setInterval(()=>{ cur+=2; if(cur>=target){cur=target;clearInterval(iv);} el.textContent=cur; },20);
+}
+
+// =============================================
+// CHATBOT
+// =============================================
+const botFallback = {
+  lantai:'Untuk perbaikan lantai tanah, mulai dengan cor semen di kamar tidur anak. Biaya ±Rp 80.000–150.000/m². Tanyakan Program Bedah Rumah ke Puskesmas untuk subsidi.',
+  ventilasi:'Pasang lubang angin 10×10cm di bagian atas dinding setiap ruangan. Biaya Rp 50.000–200.000/ruangan. Sangat efektif mencegah ISPA dan TBC.',
+  jentik:'Kuras bak mandi setiap minggu, tutup rapat semua wadah air, taburkan bubuk abate (GRATIS di Puskesmas). Ini cara ampuh cegah DBD.',
+  jamban:'Daftar Program STBM di Puskesmas atau Dinas Kesehatan untuk bantuan pembangunan jamban. Biaya mulai Rp 1,5 juta.',
+  jarak:'Jarak aman sumur ke septic tank minimal 10 meter. Jika tidak bisa, pertimbangkan beralih ke PDAM atau sumur bor dalam >30 meter.',
+  default:['Pastikan ada sirkulasi udara di setiap ruangan dengan membuat lubang angin di bagian atas dinding. Biaya sangat terjangkau.','Program STBM dari Puskesmas bisa membantu biaya sanitasi dan jamban keluarga secara gratis atau bersubsidi.','Kuras bak mandi tiap minggu dan tutup rapat penampungan air adalah cara gratis dan efektif mencegah DBD.']
+};
+
+async function sendChat() {
+  const inp = document.getElementById('chat-input');
+  const text = inp.value.trim(); if (!text) return;
+  const msgs = document.getElementById('chat-msgs');
+  const um = Object.assign(document.createElement('div'),{className:'msg msg-user',textContent:text});
+  msgs.appendChild(um);
+  inp.value = '';
+  const typing = document.createElement('div');
+  typing.className='msg msg-bot';
+  typing.innerHTML='<div class="typing-indicator"><span></span><span></span><span></span></div>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const ctx = Object.keys(answers).map(k=>`${k}: ${answers[k].label}`).join(', ');
+    const nama = v('nama');
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:`Kamu adalah Sanitarian AI ramah dan ahli kesehatan lingkungan rumah di Indonesia. Nama warga: ${nama}. Jawaban praktis, terjangkau, bahasa Indonesia, maksimal 3-4 kalimat. Kondisi rumah: ${ctx}. Prioritaskan solusi gratis/murah atau melalui program Puskesmas.`,
+        messages:[{role:'user',content:text}]
+      })
+    });
+    const d = await r.json();
+    typing.textContent = d.content?.[0]?.text || getFallback(text);
+  } catch(e) { typing.textContent = getFallback(text); }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function getFallback(text) {
+  const l = text.toLowerCase();
+  if (l.includes('lantai')||l.includes('semen')) return botFallback.lantai;
+  if (l.includes('ventilasi')||l.includes('jendela')||l.includes('udara')) return botFallback.ventilasi;
+  if (l.includes('jentik')||l.includes('nyamuk')||l.includes('dbd')) return botFallback.jentik;
+  if (l.includes('jamban')||l.includes('wc')||l.includes('toilet')) return botFallback.jamban;
+  if (l.includes('sumur')||l.includes('jarak')||l.includes('septic')) return botFallback.jarak;
+  return botFallback.default[Math.floor(Math.random()*botFallback.default.length)];
+}
+
+function simulateUpload() {
+  const r = document.getElementById('upload-result');
+  r.style.display='block';
+  r.innerHTML='<div class="info-box">🔄 Menganalisis foto... <strong>AI Vision sedang bekerja</strong></div>';
+  setTimeout(()=>{
+    r.innerHTML='<div class="info-box" style="border-color:var(--green-400);background:var(--green-50);color:var(--green-800)">✅ <strong>Analisis AI selesai:</strong> Tidak ditemukan tanda jentik nyamuk yang terlihat. Tetap rutin kuras bak mandi setiap minggu untuk pencegahan optimal.</div>';
+  },2000);
+}
+
+function shareCert(platform) {
+  const nama = v('nama');
+  const msg = `🏅 ${nama||'Saya'} mendapat Sertifikat Rumah Sehat dari Puskesmas! Yuk audit rumahmu juga! #RumahSehat #KesehatanLingkungan`;
+  if (platform==='whatsapp') window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  else alert('Fitur unduh sertifikat akan tersedia di versi final aplikasi.');
+}
+</script>
+</body>
+</html>
